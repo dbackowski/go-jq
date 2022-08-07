@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func extractValueAtPath(a map[string]any, path []string) (any, error) {
+func findValueAtPath(a map[string]any, path []string) (any, error) {
 	if len(path) == 0 {
 		return nil, nil
 	}
@@ -54,12 +54,11 @@ func main() {
 	}
 
 	dec := json.NewDecoder(os.Stdin)
-	var a map[string]any
-
+	var input map[string]any
 	enc := json.NewEncoder(os.Stdout)
 
 	for {
-		err := dec.Decode(&a)
+		err := dec.Decode(&input)
 		if err == io.EOF {
 			break
 		}
@@ -68,12 +67,12 @@ func main() {
 			log.Fatal(err)
 		}
 
-		v, err := extractValueAtPath(a, path)
+		output, err := findValueAtPath(input, path)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		err = enc.Encode(v)
+		err = enc.Encode(output)
 		if err != nil {
 			log.Fatal(err)
 		}
