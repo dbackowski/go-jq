@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -42,6 +43,11 @@ func extractValueAtPath(a map[string]any, path []string) (any, error) {
 }
 
 func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("No filter provided")
+		return
+	}
+
 	path := strings.Split(os.Args[1], ".")
 	if path[0] == "" {
 		path = path[1:]
