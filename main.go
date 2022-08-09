@@ -11,10 +11,6 @@ import (
 )
 
 func findValueAtPath(a map[string]any, path []string) (any, error) {
-	if len(path) == 0 {
-		return nil, nil
-	}
-
 	var v any = a
 
 	for _, part := range path {
@@ -42,17 +38,7 @@ func findValueAtPath(a map[string]any, path []string) (any, error) {
 	return v, nil
 }
 
-func main() {
-	if len(os.Args) == 1 {
-		fmt.Println("No filter provided")
-		return
-	}
-
-	path := strings.Split(os.Args[1], ".")
-	if path[0] == "" {
-		path = path[1:]
-	}
-
+func parseJsonAndFind(path []string) {
 	dec := json.NewDecoder(os.Stdin)
 	var input map[string]any
 	enc := json.NewEncoder(os.Stdout)
@@ -77,4 +63,17 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+}
+func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("No filter provided")
+		return
+	}
+
+	path := strings.Split(os.Args[1], ".")
+	if path[0] == "" {
+		path = path[1:]
+	}
+
+	parseJsonAndFind(path)
 }
