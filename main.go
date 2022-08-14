@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -31,7 +32,7 @@ func findValueAtPath(a map[string]any, path []string) (any, error) {
 
 		v, ok = m[part]
 		if !ok {
-			return nil, nil
+			return nil, errors.New("path not found")
 		}
 	}
 
@@ -50,12 +51,14 @@ func parseJsonAndFind(path []string) {
 		}
 
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println("invalid json")
+			return
 		}
 
 		output, err := findValueAtPath(input, path)
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println(err)
+			return
 		}
 
 		err = enc.Encode(output)
