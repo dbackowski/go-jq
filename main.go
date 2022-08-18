@@ -67,6 +67,7 @@ func parseJsonAndFind(path []string) {
 		}
 	}
 }
+
 func main() {
 	if len(os.Args) == 1 {
 		fmt.Println("No filter provided")
