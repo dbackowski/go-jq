@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -16,12 +17,16 @@ func findValueAtPath(a map[string]any, path []string) (any, error) {
 
 	for _, part := range path {
 		if arr, ok := v.([]any); ok {
-			n, err := strconv.Atoi(part)
+			array_index, err := strconv.Atoi(part)
 			if err != nil {
-				return nil, err
+				return nil, errors.New("invalid path")
 			}
 
-			v = arr[n]
+			if array_index > len(arr)-1 {
+				return nil, errors.New("path not found")
+			}
+
+			v = arr[array_index]
 			continue
 		}
 
@@ -68,16 +73,19 @@ func parseJsonAndFind(path []string) {
 	}
 }
 
+func argsToPath(args []string) []string {
+	if len(args) == 1 {
+		return make([]string, 0)
+	}
+
+	ereg := regexp.MustCompile(`\[([0-9]+)\]`)
+	arg := ereg.ReplaceAllString(args[1], ".$1")
+	arg = strings.TrimLeft(arg, ".")
+
+	return strings.Split(arg, ".")
+}
+
 func main() {
-	if len(os.Args) == 1 {
-		fmt.Println("No filter provided")
-		return
-	}
-
-	path := strings.Split(os.Args[1], ".")
-	if path[0] == "" {
-		path = path[1:]
-	}
-
+	path := argsToPath(os.Args)
 	parseJsonAndFind(path)
 }
