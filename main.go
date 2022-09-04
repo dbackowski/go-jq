@@ -47,7 +47,6 @@ func findValueAtPath(a map[string]any, path []string) (any, error) {
 func parseJsonAndFind(path []string) {
 	dec := json.NewDecoder(os.Stdin)
 	var input map[string]any
-	enc := json.NewEncoder(os.Stdout)
 
 	for {
 		err := dec.Decode(&input)
@@ -66,7 +65,8 @@ func parseJsonAndFind(path []string) {
 			return
 		}
 
-		err = enc.Encode(output)
+		bytes, err := json.MarshalIndent(output, "", "  ")
+		fmt.Println(string(bytes))
 		if err != nil {
 			log.Fatal(err)
 		}
