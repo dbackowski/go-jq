@@ -12,13 +12,21 @@ go build
 ```
 
 ```sh
-echo "{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"}}" | ./go-jq '.repo'
+echo "{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"},\"events\":[{\"id\":\"1\"},{\"id\":\"2\"}],\"test\":[[1,2,3],[4,5,6]]}" | ./go-jq '.repo'
 ```
 
-![screenshot](https://i.imgur.com/DdHli1l.png)
+![screenshot](https://i.imgur.com/4B2KorZ.png)
 
 ```sh
-echo "{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"}}" | ./go-jq '.repo.type'
+echo "{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"},\"events\":[{\"id\":\"1\"},{\"id\":\"2\"}],\"test\":[[1,2,3],[4,5,6]]}" | ./go-jq '.repo.type'
+
 ```
 
-![screenshot](https://i.imgur.com/nYVdSFK.png)
+![screenshot](https://i.imgur.com/k9prcfH.png)
+
+
+```sh
+echo "{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"},\"events\":[{\"id\":\"1\"},{\"id\":\"2\"}],\"test\":[[1,2,3],[4,5,6]]}" | ./go-jq '.test[0]'
+```
+
+![screenshot](https://i.imgur.com/mAbqeBW.png)
