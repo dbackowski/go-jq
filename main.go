@@ -44,8 +44,8 @@ func findValueAtPath(a map[string]any, path []string) (any, error) {
 	return v, nil
 }
 
-func parseJsonAndFind(path []string) {
-	dec := json.NewDecoder(os.Stdin)
+func parseJsonAndFind(in io.Reader, path []string) {
+	dec := json.NewDecoder(in)
 	var input map[string]any
 
 	for {
@@ -87,5 +87,5 @@ func argsToPath(args []string) []string {
 
 func main() {
 	path := argsToPath(os.Args)
-	parseJsonAndFind(path)
+	parseJsonAndFind(os.Stdin, path)
 }
