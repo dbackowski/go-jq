@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 	"testing"
+
+	"golang.org/x/exp/slices"
 )
 
 func TestParseJsonAndFind(t *testing.T) {
@@ -27,6 +29,33 @@ func TestParseJsonAndFind(t *testing.T) {
 	want := "{\n  \"id\": \"2222\",\n  \"type\": \"private\"\n}\n"
 
 	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func TestArgsToPath(t *testing.T) {
+	args := []string{"./go-jq", ".repo"}
+	got := argsToPath(args)
+
+	want := []string{"repo"}
+
+	if !slices.Equal(got, want) {
+		t.Errorf("got %q, want %q", got, want)
+	}
+
+	args = []string{"/go-jq", ".repo.type"}
+	got = argsToPath(args)
+	want = []string{"repo", "type"}
+
+	if !slices.Equal(got, want) {
+		t.Errorf("got %q, want %q", got, want)
+	}
+
+	args = []string{"/go-jq", ".test[0]"}
+	got = argsToPath(args)
+	want = []string{"test", "0"}
+
+	if !slices.Equal(got, want) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
