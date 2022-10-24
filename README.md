@@ -1,4 +1,4 @@
-### go-jq
+### go-jq ![Tests](https://github.com/dbackowski/go-jq/actions/workflows/test.yml/badge.svg)
 
 Very simple command-line JSON processor written in Go.
 
