@@ -36,6 +36,18 @@ func TestParseJsonAndFind(t *testing.T) {
 		}
 	})
 
+	t.Run("for valid json input and path set as '.repo.type' it returns propers data", func(t *testing.T) {
+		path := argsToPath([]string{"./go-jq", ".repo.type"})
+		input := strings.NewReader("{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"},\"events\":[{\"id\":\"1\"},{\"id\":\"2\"}],\"test\":[[1,2,3],[4,5,6]]}")
+
+		got := captureParseJsonAndFindConsoleOutput(input, path)
+		want := "\"private\"\n"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+
 	t.Run("for valid json input and path set as '.test[0]' it returns propers data", func(t *testing.T) {
 		path := argsToPath([]string{"./go-jq", ".test[0]"})
 		input := strings.NewReader("{\"id\":\"123\",\"type\":\"event\",\"repo\":{\"id\":\"2222\",\"type\":\"private\"},\"events\":[{\"id\":\"1\"},{\"id\":\"2\"}],\"test\":[[1,2,3],[4,5,6]]}")
