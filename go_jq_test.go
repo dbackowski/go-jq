@@ -59,6 +59,18 @@ func TestParseJsonAndFind(t *testing.T) {
 			t.Errorf("got %q, want %q", got, want)
 		}
 	})
+
+	t.Run("for invalid json input it returns error message", func(t *testing.T) {
+		path := argsToPath([]string{"./go-jq"})
+		input := strings.NewReader("{ invalid: }")
+
+		got := captureParseJsonAndFindConsoleOutput(input, path)
+		want := "invalid json\n"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
 }
 
 func TestArgsToPath(t *testing.T) {
